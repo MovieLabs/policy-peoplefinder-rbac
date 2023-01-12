@@ -1,5 +1,8 @@
 package peoplefinder.DELETE.api.users.__id
 
+import input.policy.path
+import input.user.properties.roles as user_roles
+
 default allowed = false
 
 default visible = false
@@ -7,16 +10,16 @@ default visible = false
 default enabled = false
 
 allowed {
-	props = input.user.attributes.properties
-	props.department == "Operations"
-	props.title == "IT Manager"
+	some index
+	data.roles[user_roles[index]].perms[path].allowed
 }
 
 visible {
-	props = input.user.attributes.properties
-	props.department == "Operations"
+	some index
+	data.roles[user_roles[index]].perms[path].visible
 }
 
 enabled {
-	allowed
+	some index
+	data.roles[user_roles[index]].perms[path].enabled
 }
